@@ -107,7 +107,19 @@ class _MyHomePageState extends State<MyHomePage> {
                 );
                 print('路由返回值：$result');
               },
-              child: Text('打开提示页')
+              child: Text('StatelessWidget')
+            ),
+            RaisedButton(
+              onPressed: () async {
+                Navigator.push( context,
+                  new MaterialPageRoute(builder: (context) {
+                    return ContextRoute();
+                  }, 
+                  maintainState: true,
+                  fullscreenDialog: true)
+                );
+              },
+              child: Text('ContextRoute')
             ),
           ],
         ),
@@ -188,10 +200,35 @@ class Echo extends StatelessWidget {
 
   @override 
   Widget build(BuildContext context) {
-    return Center(
-      child: Container(
-        color: backgroundColor,
-        child: Text(text),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('StatelessWidget'),
+      ),
+      body: Padding(
+        padding: EdgeInsets.all(18), 
+        child: Center( 
+          child: Container(
+            color: backgroundColor,
+            child: Text(text),
+          ),
+        )
+      )
+    );
+  }
+}
+
+class ContextRoute extends StatelessWidget {
+  @override 
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('lsqy Context测试')
+      ),
+      body: Container(
+        child: Builder(builder: (context) {
+          Scaffold scaffold = context.findAncestorWidgetOfExactType();
+          return (scaffold.appBar as AppBar).title;
+        }),
       ),
     );
   }
